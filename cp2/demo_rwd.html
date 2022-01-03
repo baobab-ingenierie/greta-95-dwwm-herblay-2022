@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        #header {
+            display: flex;
+            height: 10vh;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #logo,
+        #flag {
+            height: 100%;
+        }
+
+        @media screen and (max-width: 330px) {
+            body {
+                background: #ddd;
+            }
+
+            #logo,
+            #flag {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <img src="pics/logo.svg" alt="" id="logo">
+        <h1 id="title">Responsive Web Design</h1>
+        <img src="pics/flag.svg" alt="" id="flag">
+    </header>
+
+</body>
+
+</html>

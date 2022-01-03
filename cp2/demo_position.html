@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            height: 200vh;
+        }
+
+        .box {
+            width: 25vw;
+            height: 25vw;
+            border: #000 solid .1rem;
+            margin: 1rem;
+            padding: 1rem;
+        }
+
+        #box1 {
+            background: #0f0;
+            position: sticky;
+            top: 0;
+        }
+
+        #box2 {
+            background: #0ff;
+            position: relative;
+            left: 5rem;
+            top: 5rem;
+        }
+
+        #box3 {
+            background: #f0f;
+            position: absolute;
+            top: 5rem;
+            right: 5rem;
+        }
+
+        #box4 {
+            background: #ff0;
+            position: fixed;
+            bottom: -5rem;
+            right: -5rem;
+        }
+
+        #box5 {
+            background: #00f;
+            position: relative;
+        }
+
+        #child {
+            width: 2.5vw;
+            height: 2.5vw;
+            border: #000 solid .1rem;
+            background: #f00;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box1" class="box"></div>
+    <div id="box2" class="box"></div>
+    <div id="box3" class="box"></div>
+    <div id="box4" class="box"></div>
+    <div id="box5" class="box">
+        <div id="child"></div>
+    </div>
+</body>
+
+</html>
