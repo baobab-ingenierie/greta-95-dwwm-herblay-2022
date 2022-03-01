@@ -6,7 +6,7 @@
  */
 
 // Si TEST
-if ($_SERVER['HTTP_POST'] === 'localhost' || $_SERVER['HTTP_POST'] === '127.0.0.1') {
+if ($_SERVER['HTTP_HOST'] === 'localhost' || $_SERVER['HTTP_HOST'] === '127.0.0.1') {
     // Connexion via PDO
     define('HOST', 'localhost');
     define('PORT', 3306);
