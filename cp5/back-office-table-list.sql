@@ -1,3 +1,8 @@
+-- Etapes dans l'exécutio d'un requête SQL :
+-- 1 Parsing (analyse) : gestion des erreurs syntaxiques et sémantiques
+-- 2 Executing : aller-retour entre client et serveur
+-- 3 Fetching : lecture ligne à ligne du résultat
+
 USE information_schema
 ;
 
@@ -39,5 +44,3 @@ FROM information_schema.columns
 WHERE ordinal_position > 1
 AND column_key = 'PRI')
 ;
-
-
