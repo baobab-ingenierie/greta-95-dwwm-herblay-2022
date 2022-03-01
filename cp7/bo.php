@@ -24,7 +24,7 @@ include_once 'includes/constants.inc.php';
         <a class="btn btn-primary btn-lg" target="_blank" href="https://www.php.net" role="button">Aide PHP</a>
     </div>
 
-    <section id="tables">
+    <section id="tables" class="d-flex flex-wrap justify-content-between">
         <?php
         try {
             // Connexion à la BDD via instanciation de la classe PDO
@@ -60,8 +60,8 @@ include_once 'includes/constants.inc.php';
             // var_dump($data);
 
             // Création d'une card pour chaque table du résultat
-            $card = '<div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="">
+            $card = '<div class="card my-3" style="width: 18rem;">
+            <img src="https://intelligence-artificielle.com/wp-content/uploads/2022/01/Big-Data-300x200.jpg" class="card-img-top" alt="">
             <div class="card-body">
               <h5 class="card-title">%s</h5>
               <p class="card-text">Cette %s a été créée le %s et contient %d ligne(s).</p>
@@ -72,7 +72,7 @@ include_once 'includes/constants.inc.php';
             foreach ($data as $row) {
                 // var_dump($row);
                 $type = $row['TABLE_TYPE'] === 'VIEW' ? 'vue' : 'table'; // test si table ou vue
-                echo sprintf($card, $row['TABLE_NAME'], $type, $row['CREATE_TIME'], $row['TABLE_ROWS'], $row['TABLE_NAME'], $row['COLUMN_NAME']);
+                echo sprintf($card, strtoupper($row['TABLE_NAME']), $type, $row['CREATE_TIME'], $row['TABLE_ROWS'], $row['TABLE_NAME'], $row['COLUMN_NAME']);
             }
         } catch (Exception $err) {
             echo '<p class="alert alert-danger">' . $err->getMessage() . '</p>';

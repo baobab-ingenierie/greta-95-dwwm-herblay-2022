@@ -1,0 +1,2 @@
+# Gestion des erreurs (liens morts, parcours de l'arborescence)
+ErrorDocument 404 /herblay/cp7/error/404.html
