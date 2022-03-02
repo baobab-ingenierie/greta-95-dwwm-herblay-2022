@@ -155,6 +155,7 @@ class Database
     /**
      * Méthode qui renvoie le résultat d'une requête SQL de type SELECT
      * ou SHOW sous la forme d'un tableau associatif
+     * 
      * @author Lesly Lodin <lesly.lodin@baobab-ingenierie.fr>
      * @version $Revision: 1.0$
      * @access public
@@ -163,6 +164,7 @@ class Database
      * @param array $params tableau de paramètres pour la requête
      * @return array résultat de la requête
      */
+
     public function getResult(string $sql, array $params = array()): array
     {
         try {
@@ -194,5 +196,22 @@ class Database
     public function getJSON(string $sql, array $params = array()): string
     {
         return json_encode($this->getResult($sql, $params));
+    }
+
+    /**
+     * Méthode qui renvoie le nom des colonnes d'une requête SQL de
+     * type SELECT ou SHOW
+     */
+
+    public function getColumnsName(string $sql, array $params = array()): array
+    {
+        $res = $this->getCnx()->prepare($sql);
+        $res->execute($params);
+        $cols = array();
+        for ($i = 0; $i < $res->columnCount(); $i++) {
+            $meta = $res->getColumnMeta($i);
+            array_push($cols, $meta['name']);
+        }
+        return $cols;
     }
 }
