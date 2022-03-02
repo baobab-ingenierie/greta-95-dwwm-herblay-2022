@@ -31,9 +31,12 @@ $sql = explode(' ', $sql2);
 echo $sql[0];
 
 // $data = $db->getResult('DELETE FROM customers WHERE id_cust=?', array(100));
-
 $data = $db->getResult('SELECT * FROM customers WHERE fname=?', array('lesly'));
 var_dump($data);
-
 $data = $db->getResult('SHOW tables');
 var_dump($data);
+
+$data = $db->getJSON('SELECT * FROM customers WHERE fname=?', array('lesly'));
+echo '<p>' . $data . '</p>';
+$data = $db->getJSON('SHOW tables');
+echo '<p>' . $data . '</p>';

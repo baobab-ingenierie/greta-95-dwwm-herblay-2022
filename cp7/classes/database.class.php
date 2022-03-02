@@ -182,4 +182,17 @@ class Database
             throw new PDOException(__CLASS__ . ' - ' . $err->getMessage());
         }
     }
+
+    /**
+     * Méthode qui renvoie le résultat d'une requête SQL de type SELECT
+     * ou SHOW sous la forme d'un objet JSON sérialisé
+     * @param string $sql requête SQL paramétrée de type SELECT ou SHOW 
+     * @param array $params tableau de paramètres pour la requête
+     * @return string résultat de la requête
+     */
+
+    public function getJSON(string $sql, array $params = array()): string
+    {
+        return json_encode($this->getResult($sql, $params));
+    }
 }
