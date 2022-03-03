@@ -40,15 +40,22 @@
         $res = $cnx->getCnx()->prepare('SELECT * FROM ' . $t . ' WHERE ' . $k . '=?');
         $res->execute(array($v));
 
-        // Génère un array vide si $v vide
+        // Récupère le nom et le type de chaque colonne
+        for ($i = 0; $i < $res->columnCount(); $i++) {
+            $row[$res->getColumnMeta($i)['name']] = '';
+            $type[$res->getColumnMeta($i)['name']]=$res->getColumnMeta($i)['native_type'];
+        }
+
+        // Teste si INSERT ou UPDATE
         if ($res->rowCount() === 0) {
-            for ($i = 0; $i < $res->columnCount(); $i++) {
-                $row[$res->getColumnMeta($i)['name']] = '';
-            }
+            $submit = 'Ajouter';
         } else {
             $row = $res->fetch();
+            $submit = 'Mettre à jour';
         }
+
         var_dump($row);
+        var_dump($type);
 
         // Affiche le formulaire
         $html = '<form action="save.php?' . $_SERVER['QUERY_STRING'] . '" method="post">';
@@ -56,7 +63,10 @@
         <label for="%s">%s</label>
         <input type="text" class="form-control" id="%s" value="%s">
         </div>';
-
+        foreach ($row as $key => $val) {
+            $html .= sprintf($input, $key, strtoupper($key), $key, $val);
+        }
+        $html .= '<input type="submit" class="btn btn-info" value="' . $submit . '">';
         $html .= '</form>';
         echo $html;
     }
