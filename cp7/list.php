@@ -36,7 +36,7 @@
     if (isset($_GET['n']) && !empty($_GET['n'])) {
         $nb = (int) $_GET['n'];
     } else {
-        $nb = 10;
+        $nb = 8;
     }
 
     // Si table et pk vides alors on arrête
@@ -44,8 +44,13 @@
         echo '<p class="alert alert-warning">Aucune table à exploiter : <a href="index.php">Retour à l\'accueil</a></p>';
         exit();
     } else {
+        // Affiche le titre de la page
         echo '<h1>Données de la table <strong>' . $table . '</strong></h1>';
 
+        // Affiche le bouton pour créer un nouvel enregistrement
+        echo '<a class="btn btn-success mb-3" href="edit.php?t=' . $table . '&k=' . $primary . '&v=' . '">Ajouter un nouvel enregistrement</a>';
+
+        // Affiche le fil d'Ariane (ou Breadcrumbs)
         echo '<nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.php">Accueil</a></li>
@@ -70,11 +75,12 @@
         // 4. Affiche le résultat de la requête sous la forme d'un tableau HTML
         $html = '<table class="table table-dark table-striped">';
 
-        // En-tête du tableau
+        // En-tête du tableau HTML
         $html .= '<thead><tr>';
         foreach ($cols as $col) {
             $html .= '<th>' . $col . '</th>';
         }
+        $html .= '<th></th>';
         $html .= '</tr></thead>';
 
         // Données
@@ -84,6 +90,11 @@
             foreach ($row as $val) {
                 $html .= '<td>' . $val . '</td>';
             }
+            // Boutons pour modifier ou supprimer
+            $html .= '<td>
+            <a class="btn btn-warning btn-sm" title="Modifier la ligne" href="edit.php?t=' . $table . '&k=' . $primary . '&v=' . $row[$primary] . '">M</a>
+            <a class="btn btn-danger btn-sm" title="Supprimer la ligne" href="delete.php?t=' . $table . '&k=' . $primary . '&v=' . $row[$primary] . '">S</a>
+            </td>';
             $html .= '</tr>';
         }
         $html .= '</tbody>';
