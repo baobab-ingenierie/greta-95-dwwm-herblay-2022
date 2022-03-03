@@ -11,22 +11,44 @@
 
 <body class="container">
     <?php
-    // Teste paramètre passés dans l'URL
-    $t = isset($_GET['t']) && !empty($_GET['t']) ? $_GET['t'] : '';
-    $k = isset($_GET['k']) && !empty($_GET['k']) ? $_GET['k'] : '';
-    $p = isset($_GET['p']) && !empty($_GET['p']) ? (int) $_GET['p'] : 0;
-    $n = isset($_GET['n']) && !empty($_GET['n']) ? (int) $_GET['n'] : 8;
+    // Teste si nom table passé dans l'URL
+    if (isset($_GET['t']) && !empty($_GET['t'])) {
+        $table = $_GET['t'];
+    } else {
+        $table = '';
+    }
+
+    // Teste si nom pk passé dans l'URL
+    if (isset($_GET['k']) && !empty($_GET['k'])) {
+        $primary = $_GET['k'];
+    } else {
+        $primary = '';
+    }
+
+    // Teste si page en cours dans l'URL
+    if (isset($_GET['p']) && !empty($_GET['p'])) {
+        $page = (int) $_GET['p'];
+    } else {
+        $page = 0;
+    }
+
+    // Teste si nb lignes par page dans l'URL
+    if (isset($_GET['n']) && !empty($_GET['n'])) {
+        $nb = (int) $_GET['n'];
+    } else {
+        $nb = 8;
+    }
 
     // Si table et pk vides alors on arrête
-    if ($t === '' || $k === '') {
+    if ($table === '' || $primary === '') {
         echo '<p class="alert alert-warning">Aucune table à exploiter : <a href="index.php">Retour à l\'accueil</a></p>';
         exit();
     } else {
         // Affiche le titre de la page
-        echo '<h1>Données de la table <strong>' . $t . '</strong></h1>';
+        echo '<h1>Données de la table <strong>' . $table . '</strong></h1>';
 
         // Affiche le bouton pour créer un nouvel enregistrement
-        echo '<a class="btn btn-success mb-3" href="edit.php?t=' . $t . '&k=' . $k . '&v=' . '">Ajouter un nouvel enregistrement</a>';
+        echo '<a class="btn btn-success mb-3" href="edit.php?t=' . $table . '&k=' . $primary . '&v=' . '">Ajouter un nouvel enregistrement</a>';
 
         // Affiche le fil d'Ariane (ou Breadcrumbs)
         echo '<nav aria-label="breadcrumb">
@@ -46,7 +68,7 @@
         $cnx = new Database(HOST, PORT, BASE, USER, PASS);
 
         // 3. Requête SQL pour lister tous les clients
-        $sql = 'SELECT * FROM ' . $t . ' LIMIT ' . $p . ',' . $n;
+        $sql = 'SELECT * FROM ' . $table . ' LIMIT ' . $page . ',' . $nb;
         $cols = $cnx->getColumnsName($sql);
         $data = $cnx->getResult($sql);
 
@@ -70,8 +92,8 @@
             }
             // Boutons pour modifier ou supprimer
             $html .= '<td>
-            <a class="btn btn-warning btn-sm" title="Modifier la ligne" href="edit.php?t=' . $t . '&k=' . $k . '&v=' . $row[$k] . '">M</a>
-            <a class="btn btn-danger btn-sm" title="Supprimer la ligne" href="delete.php?t=' . $t . '&k=' . $k . '&v=' . $row[$k] . '">S</a>
+            <a class="btn btn-warning btn-sm" title="Modifier la ligne" href="edit.php?t=' . $table . '&k=' . $primary . '&v=' . $row[$primary] . '">M</a>
+            <a class="btn btn-danger btn-sm" title="Supprimer la ligne" href="delete.php?t=' . $table . '&k=' . $primary . '&v=' . $row[$primary] . '">S</a>
             </td>';
             $html .= '</tr>';
         }
@@ -83,17 +105,17 @@
 
         // 5. Pagination
         // Nb total de lignes 
-        $sql2 = 'SELECT COUNT(*) AS total FROM ' . $t;
+        $sql2 = 'SELECT COUNT(*) AS total FROM ' . $table;
         $data2 = $cnx->getResult($sql2);
         $total = (int) $data2[0]['total'];
-        $pages = ceil($total / $n);
+        $pages = ceil($total / $nb);
 
         // Liens vers pages
         $html = '<nav><ul class="pagination pagination-sm d-flex flex-wrap">';
         for ($i = 0; $i < $pages; $i++) {
-            $link = $_SERVER['PHP_SELF'] . '?t=' . $t . '&k=' . $k . '&p=' . ($i * $n) . '&n=' . $n;
+            $link = $_SERVER['PHP_SELF'] . '?t=' . $table . '&k=' . $primary . '&p=' . ($i * $nb) . '&n=' . $nb;
             // Page active ou non ?
-            if ($p === $i * $n) {
+            if ($page === $i * $nb) {
                 $html .= '<li class="page-item active"><span class="page-link">' . ($i + 1) . '</span></li>';
             } else {
                 $html .= '<li class="page-item"><a class="page-link" href="' . $link . '">' . ($i + 1) . '</a></li>';
@@ -105,6 +127,8 @@
         echo '<p class="alert alert-danger">' . $err->getMessage() . '<br><a href="index.php">Retour à l\'accueil</a></p>';
     }
     ?>
+
+    <script src="js/list.js"></script>
 </body>
 
 </html>

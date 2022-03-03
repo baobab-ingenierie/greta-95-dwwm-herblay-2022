@@ -43,7 +43,7 @@
         // Récupère le nom et le type de chaque colonne
         for ($i = 0; $i < $res->columnCount(); $i++) {
             $row[$res->getColumnMeta($i)['name']] = '';
-            $type[$res->getColumnMeta($i)['name']]=$res->getColumnMeta($i)['native_type'];
+            $types[$res->getColumnMeta($i)['name']] = $res->getColumnMeta($i)['native_type'];
         }
 
         // Teste si INSERT ou UPDATE
@@ -54,17 +54,25 @@
             $submit = 'Mettre à jour';
         }
 
-        var_dump($row);
-        var_dump($type);
-
         // Affiche le formulaire
         $html = '<form action="save.php?' . $_SERVER['QUERY_STRING'] . '" method="post">';
         $input = '<div class="form-group">
         <label for="%s">%s</label>
-        <input type="text" class="form-control" id="%s" value="%s">
-        </div>';
+        <input type="%s" class="form-control" id="%s" value="%s">
+        </div>'; // TODO : readonly ou disabled pour ID
         foreach ($row as $key => $val) {
-            $html .= sprintf($input, $key, strtoupper($key), $key, $val);
+            // Type de l'INPUT vs type de la COLONNE
+            switch ($types[$key]) {
+                case 'SHORT':
+                    $type = 'number';
+                    break;
+                case 'DATE':
+                    $type = 'date';
+                    break;
+                default:
+                    $type = 'text';
+            }
+            $html .= sprintf($input, $key, strtoupper($key), $type, $key, $val);
         }
         $html .= '<input type="submit" class="btn btn-info" value="' . $submit . '">';
         $html .= '</form>';
