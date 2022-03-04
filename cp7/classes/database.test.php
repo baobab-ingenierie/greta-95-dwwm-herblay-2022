@@ -2,7 +2,7 @@
 include_once 'database.class.php';
 include_once '../includes/constants.inc.php';
 
-echo '<h2>Instanciation</h2>';
+echo '<h2>Instanciation de la classe Database</h2>';
 
 // $db = new Database();
 $db = new Database(HOST, PORT, BASE, USER, PASS);

@@ -22,7 +22,7 @@ class Database
     const PATTERN_PASSWORD = '/^([A-Za-z\d@$!%*?&_]{0,30})$/';
 
     /**
-     * Constructeur de la classe
+     * Constructeur de la classe mère
      * @param string $newHost nom du serveur de BDD
      * @param int $newPort port d'écoute du serveur de BDD
      * @param string $newDbname nom de la BDD
