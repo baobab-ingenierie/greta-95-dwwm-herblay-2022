@@ -12,3 +12,9 @@ var_dump($myTable);
 // $myTable->setTable('Customers_2');
 $myTable->setTable('customers');
 var_dump($myTable);
+
+$data = $myTable->getRows(); // Read all rows
+var_dump($data);
+
+$data = $myTable->getRow('id_cust', 11); // Read one row
+var_dump($data);
