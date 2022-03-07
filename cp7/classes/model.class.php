@@ -85,4 +85,68 @@ final class Model extends Database
             throw new Exception(__CLASS__ . ' - ' . $err->getMessage());
         }
     }
+
+    /**
+     * Méthode qui ajoute une nouvelle ligne dans la table en cours (C comme Create)
+     * @param array $post tableau associatif de type POST contenant les données à insérer
+     * @return bool
+     */
+
+    public function insert(array $post): bool
+    {
+        try {
+            // Remplit le tableau des paramètres de la requête avec $post
+            foreach ($post as $key => $val) {
+                $params[':' . $key] = htmlspecialchars($val);
+            }
+
+            // Prépare la requête
+            $sql = sprintf(
+                'INSERT INTO %s(%s) VALUES(%s)',
+                $this->getTable(),
+                implode(',', array_keys($post)),
+                implode(',', array_keys($params))
+            );
+
+            // Exécute la requête
+            $res = $this->db->getCnx()->prepare($sql);
+            return $res->execute($params);
+        } catch (Exception $err) {
+            throw new Exception(__CLASS__ . ' - ' . $err->getMessage());
+        }
+    }
+
+    /**
+     * Méthode qui met à jour une ligne dans la table en cours à partir d'un tableau associatif de type POST (U pour Update)
+     * @param array $post tableau associatif de type POST contenant les données à mettre à jour
+     * @param string $pk colonne clé primaire
+     * @param string $val valeur de la clé primaire
+     * @return bool
+     */
+
+    public function update(array $post, string $pk, string $id): bool
+    {
+        try {
+            // Remplit le tableau des paramètres de la requête avec $post
+            foreach ($post as $key => $val) {
+                $params[':' . $key] = htmlspecialchars($val);
+                $assign[] = $key . '=:' . $key;
+            }
+            $params[':pk'] = $id;
+
+            // Prépare la requête SQL
+            $sql = sprintf(
+                'UPDATE %s SET %s WHERE %s=:pk',
+                $this->getTable(),
+                implode(',', $assign),
+                $pk
+            );
+
+            // Exécute la requête SQL
+            $res = $this->db->getCnx()->prepare($sql);
+            return $res->execute($params);
+        } catch (Exception $err) {
+            throw new Exception(__CLASS__ . ' - ' . $err->getMessage());
+        }
+    }
 }
