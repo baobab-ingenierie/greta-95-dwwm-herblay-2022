@@ -13,6 +13,7 @@ var_dump($myTable);
 $myTable->setTable('customers');
 var_dump($myTable);
 
+// Teste la méthode GETROW / GETROWS
 $data = $myTable->getRows(); // Read all rows
 var_dump($data);
 
@@ -41,3 +42,7 @@ var_dump($myTable->update(array(
     'fname' => 'Lesly',
     'dob' => '1967-11-11'
 ), 'id_cust', 1));
+
+// Teste la méthode DELETE
+$myTable->setTable('customers');
+var_dump($myTable->delete('id_cust', 5));

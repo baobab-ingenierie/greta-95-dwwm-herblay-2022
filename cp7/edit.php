@@ -58,7 +58,7 @@
         $html = '<form action="save.php?' . $_SERVER['QUERY_STRING'] . '" method="post">';
         $input = '<div class="form-group">
         <label for="%s">%s</label>
-        <input type="%s" class="form-control" id="%s" value="%s">
+        <input type="%s" class="form-control" id="%s" name="%s" value="%s">
         </div>'; // TODO : readonly ou disabled pour ID
         foreach ($row as $key => $val) {
             // Type de l'INPUT vs type de la COLONNE
@@ -72,7 +72,7 @@
                 default:
                     $type = 'text';
             }
-            $html .= sprintf($input, $key, strtoupper($key), $type, $key, $val);
+            $html .= sprintf($input, $key, strtoupper($key), $type, $key, $key, $val);
         }
         $html .= '<input type="submit" class="btn btn-info" value="' . $submit . '">';
         $html .= '</form>';

@@ -54,6 +54,36 @@ final class Model extends Database
     // Méthodes publiques du CRUD
 
     /**
+     * Méthode qui ajoute une nouvelle ligne dans la table en cours (C comme Create)
+     * @param array $post tableau associatif de type POST contenant les données à insérer
+     * @return bool
+     */
+
+    public function insert(array $post): bool
+    {
+        try {
+            // Remplit le tableau des paramètres de la requête avec $post
+            foreach ($post as $key => $val) {
+                $params[':' . $key] = htmlspecialchars($val);
+            }
+
+            // Prépare la requête
+            $sql = sprintf(
+                'INSERT INTO %s(%s) VALUES(%s)',
+                $this->getTable(),
+                implode(',', array_keys($post)),
+                implode(',', array_keys($params))
+            );
+
+            // Exécute la requête
+            $res = $this->db->getCnx()->prepare($sql);
+            return $res->execute($params);
+        } catch (Exception $err) {
+            throw new Exception(__CLASS__ . ' - ' . $err->getMessage());
+        }
+    }
+
+    /**
      * Méthode qui renvoie toutes les lignes de la table en cours (R comme Read)
      * @return array résultat de la requête SELECT sous la forme d'un tableau associatif
      */
@@ -87,36 +117,6 @@ final class Model extends Database
     }
 
     /**
-     * Méthode qui ajoute une nouvelle ligne dans la table en cours (C comme Create)
-     * @param array $post tableau associatif de type POST contenant les données à insérer
-     * @return bool
-     */
-
-    public function insert(array $post): bool
-    {
-        try {
-            // Remplit le tableau des paramètres de la requête avec $post
-            foreach ($post as $key => $val) {
-                $params[':' . $key] = htmlspecialchars($val);
-            }
-
-            // Prépare la requête
-            $sql = sprintf(
-                'INSERT INTO %s(%s) VALUES(%s)',
-                $this->getTable(),
-                implode(',', array_keys($post)),
-                implode(',', array_keys($params))
-            );
-
-            // Exécute la requête
-            $res = $this->db->getCnx()->prepare($sql);
-            return $res->execute($params);
-        } catch (Exception $err) {
-            throw new Exception(__CLASS__ . ' - ' . $err->getMessage());
-        }
-    }
-
-    /**
      * Méthode qui met à jour une ligne dans la table en cours à partir d'un tableau associatif de type POST (U pour Update)
      * @param array $post tableau associatif de type POST contenant les données à mettre à jour
      * @param string $pk colonne clé primaire
@@ -141,6 +141,32 @@ final class Model extends Database
                 implode(',', $assign),
                 $pk
             );
+
+            // Exécute la requête SQL
+            $res = $this->db->getCnx()->prepare($sql);
+            return $res->execute($params);
+        } catch (Exception $err) {
+            throw new Exception(__CLASS__ . ' - ' . $err->getMessage());
+        }
+    }
+
+    /**
+     * Méthode qui supprime une seule ligne dan la table en cours (D pour Delete)
+     * @param string $pk colonne clé primaire
+     * @param string $val valeur de la clé primaire
+     * @return bool
+     */
+
+    public function delete(string $pk, string $val): bool
+    {
+        try {
+            // Prépare la requête SQL
+            $sql = sprintf(
+                'DELETE FROM %s WHERE %s=?',
+                $this->getTable(),
+                $pk
+            );
+            $params = array($val);
 
             // Exécute la requête SQL
             $res = $this->db->getCnx()->prepare($sql);
