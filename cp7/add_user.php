@@ -23,9 +23,12 @@ try {
         $table = new Model(HOST, PORT, BASE, USER, PASS, 'users');
         $status = $table->insert($_POST);
         if ($status) {
+            // Inscription OK
             header('location:index.php');
+            // Envoie un mail
         } else {
-            header('location:register.php?status=0');
+            // Inscription KO
+            header('location:register.php?status=2');
         }
     } else {
         header('location:register.php?status=1');

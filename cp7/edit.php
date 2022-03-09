@@ -1,3 +1,7 @@
+<?php
+// Teste si une session est ouverte avant d'afficher
+include_once 'test_session.php';
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
