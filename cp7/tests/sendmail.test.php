@@ -29,7 +29,7 @@
  * https://www.google.com/settings/security/lesssecureapps
  */
 
-$recipients = 'info@baobab-ingenierie.fr, killian.richard18@gmail.com';
+$recipients = 'info@baobab-ingenierie.fr';
 
 $subject = 'Test envoi de mail via PHP';
 
@@ -41,6 +41,7 @@ $headers .= "From:manu.croncron@elysees.fr \r\n"; // obligatoire : De
 $headers .= "Cc:jeannot.tetex@matignon.fr \r\n"; // optionnel : Cc
 $headers .= "Bcc:valou.cresse@idf.fr \r\n"; // optionnel : Bcc
 $headers .= "X-Priority:1 \r\n"; // optionnel : priorité
+$headers .="Disposition-Notification-To:info@baobab-ingenierie.fr \r\n"; // optionnel : Accusé de réception
 
 $status = mail($recipients, $subject, $body, $headers);
 echo $status ? 'Mail envoyé' : 'Echec d\'envoi';

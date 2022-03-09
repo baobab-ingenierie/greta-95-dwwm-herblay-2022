@@ -1,7 +1,7 @@
 <?php
 include_once '../includes/constants.inc.php';
-include_once 'database.class.php';
-include_once 'model.class.php';
+include_once '../classes/database.class.php';
+include_once '../classes/model.class.php';
 
 echo '<h2>Instanciation de la classe Model</h2>';
 

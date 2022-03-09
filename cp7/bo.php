@@ -24,7 +24,8 @@ include_once 'includes/constants.inc.php';
         <p class="lead">Ce projet fil rouge permet de mettre en avant les compétences acquises dans le module 7. Il permet d'accéder à la base de données <?php echo strtoupper(BASE); ?> en tant qu'utilisateur <?php echo strtoupper(USER); ?> sous la forme d'un CRUD.</p>
         <hr class="my-4">
         <p>Pour plus d'aide sur PHP, cliquer sur le bouton ci-dessous.</p>
-        <a class="btn btn-primary btn-lg" target="_blank" href="logout.php" role="button">Déconnexion</a>
+        <a class="btn btn-danger btn-lg" href="logout.php" role="button">Déconnexion</a>
+        <a class="btn btn-info btn-lg" target="_blank" href="account.php" role="button">Mon compte</a>
     </div>
 
     <section id="tables" class="d-flex flex-wrap justify-content-between">
